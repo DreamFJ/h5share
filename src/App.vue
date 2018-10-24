@@ -1,0 +1,29 @@
+<template>
+  <div id="app">
+    <router-view/>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App'
+}
+</script>
+
+<style>
+html{
+  font-family: HelveticaNeueLTPro-Md,"Helvetica Neue",Helvetica,Arial,Sans-Serif;
+}
+body,div,h3,p,ul,li{
+  margin: 0;
+  padding: 0;
+}
+body{
+  max-width: 860px;
+  margin: 0 auto;
+  background-color: rgba(0,0,0,.04);
+}
+ul,li{
+  list-style: none;
+}
+</style>

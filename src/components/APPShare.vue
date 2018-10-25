@@ -359,6 +359,9 @@ header {
 }
 /* container部分end */
 /* footer部分start */
+.hide {
+  display: none;
+}
 @media screen and (max-width: 414px) {
   .foot {
     display: block;
@@ -371,9 +374,6 @@ header {
     background-color: #f7f7f9;
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
   }
-}
-.hide {
-  display: none;
 }
 .foot-icon {
   float: left;

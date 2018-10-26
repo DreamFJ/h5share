@@ -28,8 +28,7 @@ module.exports = {
         path: config.build.assetsRoot,
         filename: '[name].js',
         publicPath: process.env.NODE_ENV === 'production' ?
-            config.build.assetsPublicPath :
-            config.dev.assetsPublicPath
+            config.build.assetsPublicPath : config.dev.assetsPublicPath
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
@@ -41,6 +40,18 @@ module.exports = {
     module: {
         rules: [
             // ...(config.dev.useEslint ? [createLintingRule()] : []),
+            {
+				test: /\.(js|vue)$/,
+				loader: 'eslint-loader',
+				enforce: 'pre',
+				include: [resolve('src'), resolve('test'), resolve('module')],
+				exclude: /node_modules/,
+				options: {
+					formatter: require('eslint-friendly-formatter'),
+					//不符合Eslint规则时只警告(默认运行出错)
+					emitWarning: true
+				}
+			},
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -74,6 +85,14 @@ module.exports = {
                     limit: 10000,
                     name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                ]
             }
         ]
     },

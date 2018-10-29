@@ -6,15 +6,16 @@
 ;
 (function(props = { fontSize: 100, width: 750 }) {
 	const docEle = document.documentElement
-	const radio = window.devicePixelRatio
-	const scale = 1 / radio
+	// const radio = window.devicePixelRatio
+	// const scale = 1 / radio
 	const resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize'
-	const meta = document.querySelector('meta[name=viewport]')
+	// const meta = document.querySelector('meta[name=viewport]')
 
-	meta.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
+	// meta.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
 
 	function refreshRem() {
 		const clientWidth = docEle.getBoundingClientRect().width
+		console.log(clientWidth)
 		docEle.style.fontSize = props.fontSize * (clientWidth / props.width) + 'px'
 	}
 

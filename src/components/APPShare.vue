@@ -15,7 +15,7 @@
     </header>
     <div class="container" v-bind:class='{"mb-80":!footHide}'>
       <div class="app-list">
-        <div class="app-item" v-for="(item,index) in appList">
+        <div class="app-item" v-for="(item,index) in appList" :key="index">
           <div class="item-brief" v-on:click='itemToggle(index)' v-bind:key='index'>
             <div class="item-icon">
               <img v-bind:src="item.app.icon.image" alt="icon"/>
@@ -39,7 +39,7 @@
               <div class="detail-abstract">{{item.content}}</div>
               <div class="detail-images">
                 <ul class="imageList">
-                  <li v-for="img in item.imgList" class="imageItem"><img v-bind:src="img.image" alt="图片" width="100%" height="100%"/></li>
+                  <li v-for="(img,index) in item.imgList" :key="index" class="imageItem"><img v-bind:src="img.image" alt="图片" width="100%" height="100%"/></li>
                 </ul>
               </div>
             </div>
@@ -72,77 +72,77 @@
 
 <script>
 export default {
-	name: "APPShare",
+	name: 'APPShare',
 	data() {
 		return {
 			appList: [],
-			time: "",
+			time: '',
 			footHide: false,
 			offset: 0
-		};
+		}
 	},
 	created() {
-		this.getNowDate();
-		this.getAppData(this.offset);
+		this.getNowDate()
+		this.getAppData(this.offset)
 	},
 	methods: {
 		// 获取当天的年月日
 		getNowDate() {
-			let now = new Date();
-			let year = now.getFullYear();
-			let month = now.getMonth() + 1;
-			let date = now.getDate();
-			this.time = year + "-" + month + "-" + date;
+			let now = new Date()
+			let year = now.getFullYear()
+			let month = now.getMonth() + 1
+			let date = now.getDate()
+			this.time = year + '-' + month + '-' + date
 		},
 		// 展开收缩
 		itemToggle(index) {
-			let temp = this.appList[index];
-			temp.isShow = !temp.isShow;
+			let temp = this.appList[index]
+			temp.isShow = !temp.isShow
 			// 展开的时候发送请求
 			if (temp.isShow) {
-        this.$http
-          .get(`/api/v5/appso/app/${temp.app.id}/?platform=web`)
-          .then(function(res) {
-            temp.imgList = res.data.screenshot;
-          })
-          .catch(function(err) {
-            console.log("连接失败" + err);
-          });
-      }
-    },
-    // 点x按钮关闭底部窗口
-    hideFoot() {
-      this.footHide = true;
-    },
-    // 点击收起
-    packUp(index) {
-      this.appList[index].isShow = false;
-    },
-    // 加载更多
-    loadMore() {
-      this.getAppData(this.offset);
-    },
-    // 从接口获取数据
-    getAppData(offset) {
-      this.$http
-        .get(`/api/v5/appso/discount/?limit=10&offset=${offset}&platform=web`)
-        .then((res) => {
-          // 连接成功后的回调函数
-          console.log("连接成功");
-          this.offset += res.data.objects.length;
-          res.data.objects.forEach(e => {
-            e.isShow = false;
-            e.imgList = [];
-          });
-          this.appList.push(...res.data.objects);
-        })
-        .catch(function(err) {
-          // 连接失败后的回调函数
-          console.log("连接失败" + err);
-        });
-    }
-  }
-};
+				this.$http
+					.get(`/api/v5/appso/app/${temp.app.id}/?platform=web`)
+					.then(function(res) {
+						temp.imgList = res.data.screenshot
+					})
+					.catch(function(err) {
+						console.log('连接失败' + err)
+					})
+			}
+		},
+		// 点x按钮关闭底部窗口
+		hideFoot() {
+			this.footHide = true
+		},
+		// 点击收起
+		packUp(index) {
+			this.appList[index].isShow = false
+		},
+		// 加载更多
+		loadMore() {
+			this.getAppData(this.offset)
+		},
+		// 从接口获取数据
+		getAppData(offset) {
+			this.$http
+				.get(`/api/v5/appso/discount/?limit=10&offset=${offset}&platform=web`)
+				.then((res) => {
+					// 连接成功后的回调函数
+					console.log('连接成功')
+					this.offset += res.data.objects.length
+					res.data.objects.forEach(e => {
+						e.isShow = false
+						e.imgList = []
+					})
+					this.appList.push(...res.data.objects)
+				})
+				.catch(function(err) {
+					// 连接失败后的回调函数
+					console.log('连接失败' + err)
+				})
+		}
+	}
+}
 </script>
 
 <style scoped lang='scss'>
